@@ -180,6 +180,7 @@ def main():
         print("Введенные точки:", points)
     else:
         print("Некорректный выбор.")
+        return
 
     x = [point[0] for point in points]
     y = [point[1] for point in points]
