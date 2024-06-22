@@ -61,7 +61,7 @@ def cubic_approximation(x, y):
 
 def exponential_approximation(x, y):
     if not all([i > 0 for i in x]):
-        return
+        return None, None, None
     y_ln = [np.log(i) for i in y]
     function, B, A = linear_approximation(x, y_ln)
     a = np.exp(A)
@@ -72,7 +72,7 @@ def exponential_approximation(x, y):
 
 def logarithmic_approximation(x, y):
     if not all([i > 0 for i in x]):
-        return
+        return None, None, None
     x_ln = [np.log(i) for i in x]
     function, a, b = linear_approximation(x_ln, y)
     func = lambda x: a * np.log(x) + b
@@ -81,7 +81,7 @@ def logarithmic_approximation(x, y):
 
 def power_approximation(x, y):
     if not (all([p > 0 for p in x]) and all([p > 0 for p in y])):
-        return
+        return None, None, None
     x_ln = [np.log(p) for p in x]
     y_ln = [np.log(p) for p in y]
     function, B, A = linear_approximation(x_ln, y_ln)
@@ -136,9 +136,9 @@ def write_results_to_file(file_name, approximation, coefficients, mse, r_squared
         file.write(f'Коэффициент детерминации: {r_squared}\n')
 
 
-def clear_file(file_name):
-    with open(file_name, 'w') as file:
-        pass
+def clear_file(filename):
+    open(filename, 'w').close()
+
 
 def input_data(points_counter):
     points = []
@@ -172,7 +172,7 @@ def main():
             print("Произошла ошибка при чтении из файла.")
     elif choice == "2":
         points_counter = int(input("Введите количество точек (от 8 до 12): "))
-        if points_counter <= 8 or points_counter >= 12:
+        if points_counter < 8 or points_counter > 12:
             print("Некорректное количество точек. Пожалуйста, введите число от 8 до 12.")
             return
         print("Введите координаты точек (x, y).")
